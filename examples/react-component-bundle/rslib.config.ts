@@ -13,16 +13,33 @@ export default defineConfig({
         },
       },
     },
-    {
-      format: 'cjs',
-      dts: true,
-      output: {
-        distPath: {
-          root: './dist/cjs',
-        },
-      },
-    },
+    // {
+    //   format: 'cjs',
+    //   dts: true,
+    //   output: {
+    //     distPath: {
+    //       root: './dist/cjs',
+    //     },
+    //   },
+    // },
   ],
+  tools: {
+    rspack: {
+      output: {
+        publicPath: "auto"
+      },
+      module: {
+        generator: {
+          asset: {
+            publicPath: 'auto',
+          },
+          "asset/resource": {
+            publicPath: 'auto'
+          },
+        }
+      }
+    },
+  },
   output: {
     target: 'web',
   },
