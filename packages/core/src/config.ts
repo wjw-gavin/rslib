@@ -15,7 +15,6 @@ import {
   DEFAULT_CONFIG_EXTENSIONS,
   DEFAULT_CONFIG_NAME,
   ENTRY_EXTENSIONS_PATTERN,
-  JS_EXTENSIONS_PATTERN,
   RSLIB_ENTRY_QUERY,
   SWC_HELPERS,
 } from './constant';
@@ -998,12 +997,12 @@ const composeBundleConfig = (
               const ext = extname(request);
 
               if (ext) {
-                if (JS_EXTENSIONS_PATTERN.test(request)) {
-                  request = request.replace(/\.[^.]+$/, jsExtension);
-                } else {
-                  // If it does not match jsExtensionsPattern, we should do nothing, eg: ./foo.png
-                  return callback(null, request);
-                }
+                // if (JS_EXTENSIONS_PATTERN.test(request)) {
+                //   request = request.replace(/\.[^.]+$/, jsExtension);
+                // } else {
+                // If it does not match jsExtensionsPattern, we should do nothing, eg: ./foo.png
+                return callback(null, request);
+                // }
               } else {
                 // TODO: add redirect.extension option
                 request = `${request}${jsExtension}`;
