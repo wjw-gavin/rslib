@@ -72,6 +72,7 @@ import {
   transformSyntaxToRspackTarget,
 } from './utils/syntax';
 import { loadTsconfig } from './utils/tsconfig';
+import { composeAssetConfig } from './asset/assetConfig'
 
 /**
  * This function helps you to autocomplete configuration types.
@@ -1219,6 +1220,7 @@ async function composeLibRsbuildConfig(
     cssModulesAuto,
   );
   const cssConfig = composeCssConfig(lcp, config.bundle);
+  const assetConfig = composeAssetConfig(bundle);
   const entryChunkConfig = composeEntryChunkConfig({
     enabledImportMetaUrlShim: enabledShims.cjs['import.meta.url'],
   });
@@ -1249,6 +1251,7 @@ async function composeLibRsbuildConfig(
     targetConfig,
     entryConfig,
     cssConfig,
+    assetConfig,
     entryChunkConfig,
     minifyConfig,
     dtsConfig,

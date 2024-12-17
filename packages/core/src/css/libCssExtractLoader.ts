@@ -8,6 +8,12 @@
 import path, { extname } from 'node:path';
 import type { Rspack } from '@rsbuild/core';
 
+const BASE_URI = "webpack://";
+const AUTO_PUBLIC_PATH = "__mini_css_extract_plugin_public_path_auto__";
+const ABSOLUTE_PUBLIC_PATH = `${BASE_URI}/mini-css-extract-plugin/`;
+
+const publicPathForExtract = `${ABSOLUTE_PUBLIC_PATH}${AUTO_PUBLIC_PATH}`;
+
 interface DependencyDescription {
   identifier: string;
   content: string;
@@ -249,6 +255,8 @@ export const pitch: Rspack.LoaderDefinition['pitch'] = function (
     `${this.resourcePath}.webpack[javascript/auto]!=!!!${request}`,
     {
       layer: options.layer,
+      publicPath: publicPathForExtract,
+      baseUri: `${BASE_URI}/`
     },
     (error, exports) => {
       if (error) {

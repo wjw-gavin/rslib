@@ -23,23 +23,17 @@ export default defineConfig({
     //   },
     // },
   ],
-  tools: {
-    rspack: {
-      output: {
-        publicPath: "auto"
-      },
-      module: {
-        generator: {
-          asset: {
-            publicPath: 'auto',
-          },
-          "asset/resource": {
-            publicPath: 'auto'
-          },
-        }
-      }
-    },
-  },
+  // tools: {
+  //   rspack: {
+  //     module: {
+  //       rules: [
+  //         {
+  //           loader: './hello-loader.js'
+  //         }
+  //       ]
+  //     }
+  //   }
+  // },
   output: {
     target: 'web',
   },

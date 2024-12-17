@@ -155,7 +155,19 @@ export const composeCssConfig = (
   bundle = true,
 ): RsbuildConfig => {
   if (bundle || rootDir === null) {
-    return {};
+    return {
+      tools: {
+        bundlerChain(chain, {CHAIN_ID}) {
+          chain.plugins.get(CHAIN_ID.PLUGIN.MINI_CSS_EXTRACT)?.tap(config => {
+            return [{
+              ...(config?.[0] ?? {}),
+              publicPath: 'auto',
+              experimentalPublicPathAutoEnforceRelative: true
+            }]
+          })
+        }
+      }
+    };
   }
 
   return {

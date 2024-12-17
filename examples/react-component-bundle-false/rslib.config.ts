@@ -34,25 +34,4 @@ export default defineConfig({
     target: 'web',
   },
   plugins: [pluginReact(), pluginSass()],
-  tools: {
-    rspack: {
-      output: {
-        publicPath: "auto"
-      },
-      module: {
-        generator: {
-          asset: {
-            publicPath: 'auto',
-            experimentalLibReExport: true,
-            experimentalLibPreserveImport: true,
-          },
-          // "asset/resource": {
-          //   publicPath: 'auto',
-          //   experimentalLibReExport: true,
-          //   experimentalLibPreserveImport: true,
-          // },
-        }
-      }
-    },
-  },
 });
