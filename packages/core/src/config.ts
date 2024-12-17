@@ -997,12 +997,9 @@ const composeBundleConfig = (
               const ext = extname(request);
 
               if (ext) {
-                // if (JS_EXTENSIONS_PATTERN.test(request)) {
-                //   request = request.replace(/\.[^.]+$/, jsExtension);
-                // } else {
-                // If it does not match jsExtensionsPattern, we should do nothing, eg: ./foo.png
-                return callback(null, request);
-                // }
+                // 1. js files, import foo from './foo.ts' -> import foo from './foo.mjs'
+                // 2. asset files, import foo from './assets/foo.png' -> import foo from './assets/foo.mjs'
+                return callback(null, request.replace(/\.[^.]+$/, jsExtension));
               } else {
                 // TODO: add redirect.extension option
                 request = `${request}${jsExtension}`;

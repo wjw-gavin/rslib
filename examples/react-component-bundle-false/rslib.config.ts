@@ -43,10 +43,14 @@ export default defineConfig({
         generator: {
           asset: {
             publicPath: 'auto',
+            experimentalLibReExport: true,
+            experimentalLibPreserveImport: true,
           },
-          "asset/resource": {
-            publicPath: 'auto'
-          },
+          // "asset/resource": {
+          //   publicPath: 'auto',
+          //   experimentalLibReExport: true,
+          //   experimentalLibPreserveImport: true,
+          // },
         }
       }
     },
