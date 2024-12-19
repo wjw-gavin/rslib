@@ -43,6 +43,7 @@
     "@biomejs/biome": "^1.9.4",
     "@changesets/cli": "^2.27.11",
     "@types/fs-extra": "^11.0.4",
+    "@rsdoctor/rspack-plugin": "0.4.12",
     "@types/node": "^22.8.1",
     "check-dependency-version-consistency": "^5.0.0",
     "cross-env": "^7.0.3",
@@ -64,7 +65,8 @@
   },
   "pnpm": {
     "overrides": {
-      "zx>@types/node": "-"
+      "zx>@types/node": "-",
+      "@rspack/core": "/Users/bytedance/Documents/codes/rspack/packages/rspack"
     }
   }
 }

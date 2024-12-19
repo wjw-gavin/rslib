@@ -1,4 +1,5 @@
 import React from 'react';
+import svg from './assets/react.svg';
 import styles from './index.module.scss';
 
 interface CounterButtonProps {
@@ -11,6 +12,7 @@ export const CounterButton: React.FC<CounterButtonProps> = ({
   label,
 }) => (
   <button type="button" className={styles.button} onClick={onClick}>
+    <img src={svg} />
     {label}
   </button>
 );

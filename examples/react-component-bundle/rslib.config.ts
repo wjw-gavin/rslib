@@ -13,15 +13,15 @@ export default defineConfig({
         },
       },
     },
-    {
-      format: 'cjs',
-      dts: true,
-      output: {
-        distPath: {
-          root: './dist/cjs',
-        },
-      },
-    },
+    // {
+    //   format: 'cjs',
+    //   dts: true,
+    //   output: {
+    //     distPath: {
+    //       root: './dist/cjs',
+    //     },
+    //   },
+    // },
   ],
   output: {
     target: 'web',

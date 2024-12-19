@@ -909,9 +909,12 @@ const composeEntryConfig = async (
     });
 
     // Filter the glob resolved entry files based on the allowed extensions
-    const resolvedEntryFiles = globEntryFiles.filter((file) =>
-      ENTRY_EXTENSIONS_PATTERN.test(file),
-    );
+    const resolvedEntryFiles = globEntryFiles;
+    ENTRY_EXTENSIONS_PATTERN;
+
+    // .filter((file) =>
+    //   ENTRY_EXTENSIONS_PATTERN.test(file),
+    // );
 
     if (resolvedEntryFiles.length === 0) {
       throw new Error(`Cannot find ${resolvedEntryFiles}`);
@@ -1011,7 +1014,6 @@ const composeBundlelessExternalConfig = (
               if (cssExternal !== false) {
                 return cssExternal;
               }
-
               if (jsRedirectPath) {
                 try {
                   resolvedRequest = await resolver(context, resolvedRequest);
