@@ -993,6 +993,7 @@ const composeBundlelessExternalConfig = (
             if (!request || !getResolve || !context || !contextInfo) {
               return callback();
             }
+            console.log(222222, data);
 
             if (!resolver) {
               resolver = (await getResolve()) as RspackResolver;
@@ -1009,6 +1010,7 @@ const composeBundlelessExternalConfig = (
                 jsExtension,
                 cssModulesAuto,
                 isStyleRedirected,
+                contextInfo.issuer,
               );
 
               if (cssExternal !== false) {
@@ -1060,6 +1062,7 @@ const composeBundlelessExternalConfig = (
                       /\.[^.]+$/,
                       jsExtension,
                     );
+                    // return callback();
                   }
                 } else {
                   resolvedRequest = `${resolvedRequest}${jsExtension}`;
