@@ -63,6 +63,11 @@
     "pnpm": ">=9.0.0"
   },
   "pnpm": {
+    "peerDependencyRules": {
+      "allowAny": [
+        "@rspack/*"
+      ]
+    },
     "overrides": {
       "@rspack/core": "npm:@rspack-canary/core@1.1.7-canary-10025e2e-20241225045751",
       "zx>@types/node": "-"
