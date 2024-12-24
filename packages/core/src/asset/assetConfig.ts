@@ -1,6 +1,7 @@
 import type { EnvironmentConfig } from '@rsbuild/core';
 import type { Format } from '../types';
 import { LibAssetExtractPlugin } from './LibAssetExtractPlugin';
+LibAssetExtractPlugin;
 
 // TODO: asset config document
 export const composeAssetConfig = (
@@ -16,8 +17,7 @@ export const composeAssetConfig = (
         },
         tools: {
           rspack: {
-            plugins: [new LibAssetExtractPlugin()]
-          
+            plugins: [new LibAssetExtractPlugin({ bundle: true })],
           },
         },
       };
@@ -30,8 +30,7 @@ export const composeAssetConfig = (
       },
       tools: {
         rspack: {
-          plugins: [new LibAssetExtractPlugin()]
-        
+          plugins: [new LibAssetExtractPlugin({ bundle: false })],
         },
       },
     };

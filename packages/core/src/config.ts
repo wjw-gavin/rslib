@@ -995,6 +995,8 @@ const composeBundlelessExternalConfig = (
               return callback();
             }
 
+            console.log(data);
+
             if (!resolver) {
               resolver = (await getResolve()) as RspackResolver;
             }
