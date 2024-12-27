@@ -977,7 +977,8 @@ const composeBundlelessExternalConfig = (
 } => {
   if (bundle) return { config: {} };
 
-  const isStyleRedirected = redirect.style ?? true;
+  const styleRedirectPath = redirect.style?.path ?? true;
+  const styleRedirectExtension = redirect.style?.extension ?? true;
   const jsRedirectPath = redirect.js?.path ?? true;
   const jsRedirectExtension = redirect.js?.extension ?? true;
 
@@ -996,22 +997,49 @@ const composeBundlelessExternalConfig = (
             if (!request || !getResolve || !context || !contextInfo) {
               return callback();
             }
+            const { issuer } = contextInfo;
 
             if (!resolver) {
               resolver = (await getResolve()) as RspackResolver;
             }
 
+            async function redirectPath(request: string): Promise<string> {
+              try {
+                let resolvedRequest = request;
+                resolvedRequest = await resolver!(context!, resolvedRequest);
+                resolvedRequest = normalizeSlash(
+                  path.relative(path.dirname(issuer), resolvedRequest),
+                );
+                // Requests that fall through here cannot be matched by any other externals config ahead.
+                // Treat all these requests as relative import of source code. Node.js won't add the
+                // leading './' to the relative path resolved by `path.relative`. So add manually it here.
+                if (resolvedRequest[0] !== '.') {
+                  resolvedRequest = `./${resolvedRequest}`;
+                }
+                return resolvedRequest;
+              } catch (e) {
+                // e.g. A react component library importing and using 'react' but while not defining
+                // it in devDependencies and peerDependencies. Preserve 'react' as-is if so.
+                logger.warn(
+                  `Failed to resolve module ${color.green(`"${request}"`)} from ${color.green(issuer)}. If it's an npm package, consider adding it to dependencies or peerDependencies in package.json to make it externalized.`,
+                );
+                return request;
+              }
+            }
+
             // Issuer is not empty string when the module is imported by another module.
             // Prevent from externalizing entry modules here.
-            if (contextInfo.issuer) {
+            if (issuer) {
               let resolvedRequest: string = request;
 
-              const cssExternal = cssExternalHandler(
+              const cssExternal = await cssExternalHandler(
                 resolvedRequest,
                 callback,
                 jsExtension,
                 cssModulesAuto,
-                isStyleRedirected,
+                styleRedirectPath,
+                styleRedirectExtension,
+                redirectPath,
               );
 
               if (cssExternal !== false) {
@@ -1019,27 +1047,7 @@ const composeBundlelessExternalConfig = (
               }
 
               if (jsRedirectPath) {
-                try {
-                  resolvedRequest = await resolver(context, resolvedRequest);
-                  resolvedRequest = normalizeSlash(
-                    path.relative(
-                      path.dirname(contextInfo.issuer),
-                      resolvedRequest,
-                    ),
-                  );
-                  // Requests that fall through here cannot be matched by any other externals config ahead.
-                  // Treat all these requests as relative import of source code. Node.js won't add the
-                  // leading './' to the relative path resolved by `path.relative`. So add manually it here.
-                  if (resolvedRequest[0] !== '.') {
-                    resolvedRequest = `./${resolvedRequest}`;
-                  }
-                } catch (e) {
-                  // e.g. A react component library importing and using 'react' but while not defining
-                  // it in devDependencies and peerDependencies. Preserve 'react' as-is if so.
-                  logger.warn(
-                    `Failed to resolve module ${color.green(`"${resolvedRequest}"`)} from ${color.green(contextInfo.issuer)}. If it's an npm package, consider adding it to dependencies or peerDependencies in package.json to make it externalized.`,
-                  );
-                }
+                resolvedRequest = await redirectPath(resolvedRequest);
               }
 
               // Node.js ECMAScript module loader does no extension searching.

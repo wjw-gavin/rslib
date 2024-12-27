@@ -79,32 +79,42 @@ export function isCssGlobalFile(
 
 type ExternalCallback = (arg0?: undefined, arg1?: string) => void;
 
-export function cssExternalHandler(
+export async function cssExternalHandler(
   request: string,
   callback: ExternalCallback,
   jsExtension: string,
   auto: CssLoaderOptionsAuto,
-  isStyleRedirect: boolean,
-): void | false {
-  const isCssModulesRequest = isCssModulesFile(request, auto);
-
+  styleRedirectPath: boolean,
+  styleRedirectExtension: boolean,
+  redirectPath: (request: string, emitWarning: boolean) => Promise<string>,
+): Promise<false | void> {
   // cssExtract would execute the file handled by css-loader, so we cannot external the "helper import" from css-loader
   // do not external @rsbuild/core/compiled/css-loader/noSourceMaps.js, sourceMaps.js, api.mjs etc.
   if (/compiled\/css-loader\//.test(request)) {
     return callback();
   }
 
+  let resolvedRequest = request;
+
+  if (styleRedirectPath) {
+    resolvedRequest = await redirectPath(request, false);
+  }
+
   // 1. css modules: import './CounterButton.module.scss' -> import './CounterButton.module.mjs'
   // 2. css global: import './CounterButton.scss' -> import './CounterButton.css'
-  if (request[0] === '.' && isCssFile(request)) {
+  if (resolvedRequest[0] === '.' && isCssFile(resolvedRequest)) {
     // preserve import './CounterButton.module.scss'
-    if (!isStyleRedirect) {
-      return callback(undefined, request);
+    if (!styleRedirectExtension) {
+      return callback(undefined, resolvedRequest);
     }
+    const isCssModulesRequest = isCssModulesFile(resolvedRequest, auto);
     if (isCssModulesRequest) {
-      return callback(undefined, request.replace(/\.[^.]+$/, jsExtension));
+      return callback(
+        undefined,
+        resolvedRequest.replace(/\.[^.]+$/, jsExtension),
+      );
     }
-    return callback(undefined, request.replace(/\.[^.]+$/, '.css'));
+    return callback(undefined, resolvedRequest.replace(/\.[^.]+$/, '.css'));
   }
 
   return false;

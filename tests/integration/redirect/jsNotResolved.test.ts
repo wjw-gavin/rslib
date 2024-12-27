@@ -18,7 +18,10 @@ test('redirect.js default', async () => {
     `
     [
       "warn    Failed to resolve module "./bar.js" from <ROOT>/tests/integration/redirect/js-not-resolve/src/index.js. If it's an npm package, consider adding it to dependencies or peerDependencies in package.json to make it externalized.",
+      "warn    Failed to resolve module "./bar.js" from <ROOT>/tests/integration/redirect/js-not-resolve/src/index.js. If it's an npm package, consider adding it to dependencies or peerDependencies in package.json to make it externalized.",
       "warn    Failed to resolve module "./foo" from <ROOT>/tests/integration/redirect/js-not-resolve/src/index.js. If it's an npm package, consider adding it to dependencies or peerDependencies in package.json to make it externalized.",
+      "warn    Failed to resolve module "./foo" from <ROOT>/tests/integration/redirect/js-not-resolve/src/index.js. If it's an npm package, consider adding it to dependencies or peerDependencies in package.json to make it externalized.",
+      "warn    Failed to resolve module "lodash" from <ROOT>/tests/integration/redirect/js-not-resolve/src/index.js. If it's an npm package, consider adding it to dependencies or peerDependencies in package.json to make it externalized.",
       "warn    Failed to resolve module "lodash" from <ROOT>/tests/integration/redirect/js-not-resolve/src/index.js. If it's an npm package, consider adding it to dependencies or peerDependencies in package.json to make it externalized.",
     ]
   `,
@@ -81,7 +84,10 @@ test('redirect.js.extension: false', async () => {
     `
     [
       "warn    Failed to resolve module "./bar.js" from <ROOT>/tests/integration/redirect/js-not-resolve/src/index.js. If it's an npm package, consider adding it to dependencies or peerDependencies in package.json to make it externalized.",
+      "warn    Failed to resolve module "./bar.js" from <ROOT>/tests/integration/redirect/js-not-resolve/src/index.js. If it's an npm package, consider adding it to dependencies or peerDependencies in package.json to make it externalized.",
       "warn    Failed to resolve module "./foo" from <ROOT>/tests/integration/redirect/js-not-resolve/src/index.js. If it's an npm package, consider adding it to dependencies or peerDependencies in package.json to make it externalized.",
+      "warn    Failed to resolve module "./foo" from <ROOT>/tests/integration/redirect/js-not-resolve/src/index.js. If it's an npm package, consider adding it to dependencies or peerDependencies in package.json to make it externalized.",
+      "warn    Failed to resolve module "lodash" from <ROOT>/tests/integration/redirect/js-not-resolve/src/index.js. If it's an npm package, consider adding it to dependencies or peerDependencies in package.json to make it externalized.",
       "warn    Failed to resolve module "lodash" from <ROOT>/tests/integration/redirect/js-not-resolve/src/index.js. If it's an npm package, consider adding it to dependencies or peerDependencies in package.json to make it externalized.",
     ]
   `,
